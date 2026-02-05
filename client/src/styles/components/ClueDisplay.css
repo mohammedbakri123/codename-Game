@@ -1,0 +1,54 @@
+.clue-display {
+  background: white;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.clue-display.waiting {
+  color: var(--color-text-light);
+}
+
+.clue-display.waiting p {
+  margin: 0;
+  font-style: italic;
+}
+
+.clue-box {
+  margin-bottom: 12px;
+}
+
+.clue-box h3 {
+  font-size: 14px;
+  color: var(--color-text-light);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.clue-word {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.clue-count {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--color-blue);
+  line-height: 1;
+}
+
+.guesses-remaining {
+  padding-top: 12px;
+  border-top: 1px solid #dee2e6;
+  font-size: 14px;
+  color: var(--color-text-light);
+}
+
+.guesses-remaining strong {
+  color: var(--color-text);
+  font-size: 18px;
+}

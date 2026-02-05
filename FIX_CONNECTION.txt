@@ -1,0 +1,116 @@
+═══════════════════════════════════════════════
+  🔧 FIX WEBSOCKET ERROR - STEP BY STEP
+═══════════════════════════════════════════════
+
+❌ PROBLEM: Your IP is still "localhost:3001"
+✅ SOLUTION: You MUST update the IP address in .env files
+
+───────────────────────────────────────────────
+STEP 1: Find Your IP Address
+───────────────────────────────────────────────
+
+On the computer running the server:
+
+Windows (Command Prompt):
+  ipconfig | findstr IPv4
+  
+  Example output:
+  IPv4 Address. . . . . . . . . . . : 192.168.1.105
+
+Mac (Terminal):
+  ifconfig | grep "inet " | grep -v 127.0.0.1
+  
+  Example output:
+  inet 192.168.1.105 netmask ...
+
+Linux (Terminal):
+  ip addr show
+  
+  Look for: inet 192.168.1.105/24
+
+YOUR IP IS: ________________ (write it here)
+
+───────────────────────────────────────────────
+STEP 2: Update Configuration Files
+───────────────────────────────────────────────
+
+Edit this file: client/.env
+-------------------------------------------
+VITE_SERVER_URL=http://YOUR_IP:3001
+
+Example:
+VITE_SERVER_URL=http://192.168.1.105:3001
+-------------------------------------------
+
+Edit this file: server/.env
+-------------------------------------------
+PORT=3001
+NODE_ENV=development
+CLIENT_URL=http://YOUR_IP:5173
+
+Example:
+CLIENT_URL=http://192.168.1.105:5173
+-------------------------------------------
+
+⚠️  IMPORTANT: Replace YOUR_IP with your actual IP!
+   Don't use "localhost" or "127.0.0.1"
+
+───────────────────────────────────────────────
+STEP 3: Restart Everything
+───────────────────────────────────────────────
+
+1. STOP both servers (press Ctrl+C in each terminal)
+
+2. START server:
+   cd server
+   npm run dev
+
+3. START client:
+   cd client
+   npm run dev -- --host
+
+───────────────────────────────────────────────
+STEP 4: Test Connection
+───────────────────────────────────────────────
+
+On other devices:
+- Open browser
+- Go to: http://YOUR_IP:5173
+
+Example: http://192.168.1.105:5173
+
+───────────────────────────────────────────────
+CHECKING IF IT WORKS
+───────────────────────────────────────────────
+
+✅ GOOD - Server console shows:
+   "Client connected: xxx from 192.168.1.xxx"
+
+✅ GOOD - Browser console shows:
+   "Socket connected: yyy"
+
+❌ BAD - Browser console shows:
+   "websocket error" or "connection refused"
+
+───────────────────────────────────────────────
+IF STILL NOT WORKING
+───────────────────────────────────────────────
+
+1. Check Windows Firewall:
+   - Open Windows Security
+   - Click "Firewall & network protection"
+   - Click "Allow an app through firewall"
+   - Find "Node.js" and check ALL boxes
+   
+2. Try turning off firewall temporarily
+
+3. Make sure all devices are on SAME Wi-Fi
+
+4. Try different browser (Chrome is best)
+
+5. Try using your phone's mobile hotspot
+   - Connect all devices to phone hotspot
+   - Get new IP address
+   - Update .env files
+
+═══════════════════════════════════════════════

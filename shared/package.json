@@ -1,0 +1,9 @@
+{
+  "name": "codenames-shared",
+  "version": "1.0.0",
+  "description": "Shared game engine and constants for Codenames",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  }
+}

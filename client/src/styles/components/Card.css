@@ -1,0 +1,98 @@
+.card {
+  aspect-ratio: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  cursor: default;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  text-align: center;
+}
+
+.card-word {
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  word-break: break-word;
+}
+
+/* Unrevealed state */
+.card.unrevealed {
+  background: var(--color-unrevealed);
+  border: 2px solid #dee2e6;
+}
+
+.card.unrevealed .card-word {
+  color: var(--color-text);
+}
+
+/* Spymaster view */
+.card.spymaster-red {
+  background: rgba(255, 107, 107, 0.2);
+  border: 2px solid var(--color-red);
+}
+
+.card.spymaster-blue {
+  background: rgba(77, 171, 247, 0.2);
+  border: 2px solid var(--color-blue);
+}
+
+.card.spymaster-neutral {
+  background: rgba(173, 181, 189, 0.2);
+  border: 2px solid var(--color-neutral);
+}
+
+.card.spymaster-assassin {
+  background: rgba(33, 37, 41, 0.1);
+  border: 2px solid var(--color-assassin);
+}
+
+/* Revealed states */
+.card.revealed-red {
+  background: var(--color-red);
+  border: 2px solid var(--color-red-dark);
+}
+
+.card.revealed-red .card-word {
+  color: white;
+}
+
+.card.revealed-blue {
+  background: var(--color-blue);
+  border: 2px solid var(--color-blue-dark);
+}
+
+.card.revealed-blue .card-word {
+  color: white;
+}
+
+.card.revealed-neutral {
+  background: var(--color-neutral);
+  border: 2px solid #868e96;
+}
+
+.card.revealed-neutral .card-word {
+  color: white;
+}
+
+.card.revealed-assassin {
+  background: var(--color-assassin);
+  border: 2px solid #000;
+}
+
+.card.revealed-assassin .card-word {
+  color: white;
+}
+
+/* Selectable state */
+.card.selectable {
+  cursor: pointer;
+}
+
+.card.selectable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-blue);
+}

@@ -1,0 +1,83 @@
+.team-selector {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.team-selector h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.team-hint {
+  font-size: 13px;
+  color: var(--color-text-light);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.team-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.team-btn {
+  flex: 1;
+  padding: 15px 10px;
+  border: 3px solid transparent;
+  border-radius: var(--border-radius);
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.team-btn.team-red {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.team-btn.team-red.selected {
+  background: #dc3545;
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+  transform: translateY(-2px);
+}
+
+.team-btn.team-blue {
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.team-btn.team-blue.selected {
+  background: #007bff;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.team-btn:hover:not(.selected) {
+  background: #f1f3f5;
+  transform: translateY(-1px);
+}
+
+.check-mark {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.warning {
+  color: #ffc107;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600;
+}

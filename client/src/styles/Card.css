@@ -1,0 +1,170 @@
+.game-card {
+  aspect-ratio: 1.4;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-card:hover:not(.revealed) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hidden card styling */
+.game-card.hidden {
+  background: linear-gradient(180deg, #F5E6D3 0%, #E8D4C0 100%);
+  border: 3px solid #D4A574;
+}
+
+.game-card.hidden .card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #FFF8F0;
+  margin: 4px;
+  border-radius: 4px;
+}
+
+.card-word {
+  font-size: 13px;
+  font-weight: bold;
+  color: #2C1810;
+  text-align: center;
+  direction: rtl;
+  line-height: 1.3;
+  font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Arial', sans-serif;
+}
+
+/* Revealed card styling */
+.game-card.revealed {
+  cursor: default;
+}
+
+.game-card.revealed.red {
+  background: linear-gradient(180deg, #FF6B6B 0%, #D63031 100%);
+  border: 3px solid #8B0000;
+}
+
+.game-card.revealed.blue {
+  background: linear-gradient(180deg, #74B9FF 0%, #0984E3 100%);
+  border: 3px solid #003366;
+}
+
+.game-card.revealed.neutral {
+  background: linear-gradient(180deg, #D4A574 0%, #8B6914 100%);
+  border: 3px solid #5C4033;
+}
+
+.game-card.revealed.assassin {
+  background: linear-gradient(180deg, #2D3436 0%, #000000 100%);
+  border: 3px solid #000;
+}
+
+.game-card.revealed .card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.game-card.revealed .card-word {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* Spymaster view indicators */
+.spymaster-indicator {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.spymaster-indicator .indicator {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.spymaster-indicator .indicator.red {
+  background: #FF6B6B;
+  border: 2px solid #8B0000;
+}
+
+.spymaster-indicator .indicator.blue {
+  background: #74B9FF;
+  border: 2px solid #003366;
+}
+
+.spymaster-indicator .indicator.neutral {
+  background: #D4A574;
+  border: 2px solid #5C4033;
+}
+
+.spymaster-indicator .indicator.assassin {
+  background: #2D3436;
+  border: 2px solid #000;
+}
+
+/* Spymaster card highlighting */
+.game-card.hidden.spymaster.red {
+  box-shadow: 0 0 0 3px #FF6B6B, 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-card.hidden.spymaster.blue {
+  box-shadow: 0 0 0 3px #74B9FF, 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-card.hidden.spymaster.neutral {
+  box-shadow: 0 0 0 3px #D4A574, 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.game-card.hidden.spymaster.assassin {
+  box-shadow: 0 0 0 3px #2D3436, 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .card-word {
+    font-size: 11px;
+  }
+  
+  .card-overlay {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+  
+  .spymaster-indicator {
+    width: 16px;
+    height: 16px;
+  }
+}

@@ -1,0 +1,63 @@
+.team-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.score-card {
+  text-align: center;
+  flex: 1;
+  padding: 16px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.score-card.team-red {
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.score-card.team-blue {
+  background: rgba(77, 171, 247, 0.1);
+}
+
+.score-card.active {
+  box-shadow: 0 0 0 3px currentColor;
+}
+
+.score-card h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.score {
+  font-size: 36px;
+  font-weight: 700;
+  display: block;
+}
+
+.team-red .score {
+  color: var(--color-red);
+}
+
+.team-blue .score {
+  color: var(--color-blue);
+}
+
+.turn-indicator {
+  display: block;
+  font-size: 12px;
+  margin-top: 8px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.vs {
+  font-weight: 700;
+  color: var(--color-text-light);
+  padding: 0 12px;
+}

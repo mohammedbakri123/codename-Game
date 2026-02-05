@@ -1,0 +1,43 @@
+.win-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.win-message {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  animation: winPulse 1.5s ease-in-out infinite;
+  direction: rtl;
+}
+
+.win-display.red .win-message {
+  color: #D32F2F;
+  border: 3px solid #FF6B6B;
+}
+
+.win-display.blue .win-message {
+  color: #1976D2;
+  border: 3px solid #74B9FF;
+}
+
+@keyframes winPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@media (max-width: 768px) {
+  .win-message {
+    font-size: 18px;
+    padding: 12px 25px;
+  }
+}

@@ -1,0 +1,131 @@
+.player-list {
+  padding: 20px;
+}
+
+.player-list h2 {
+  margin-bottom: 8px;
+  font-size: 22px;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.connected-count {
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-light);
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.team-section {
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  border-left: 4px solid;
+}
+
+.team-section.team-red {
+  border-left-color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+}
+
+.team-section.team-blue {
+  border-left-color: #007bff;
+  background: rgba(0, 123, 255, 0.05);
+}
+
+.team-section.unassigned {
+  border-left-color: #6c757d;
+  background: rgba(108, 117, 125, 0.05);
+}
+
+.team-section.disconnected-section {
+  border-left-color: #adb5bd;
+  background: rgba(173, 181, 189, 0.05);
+  opacity: 0.7;
+}
+
+.team-section h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.player-item:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.player-item:last-child {
+  border-bottom: none;
+}
+
+.player-item.current-player {
+  background: rgba(255, 193, 7, 0.15);
+  border: 2px solid #ffc107;
+  font-weight: 600;
+}
+
+.player-name {
+  font-weight: 500;
+  flex: 1;
+  font-size: 16px;
+}
+
+.you-badge {
+  background: #ffc107;
+  color: #5c4800;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+.player-role {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #e9ecef;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.player-role.role-spymaster {
+  background: #ffd43b;
+  color: #5c4800;
+}
+
+.player-role.role-operative {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.disconnected {
+  font-size: 12px;
+  color: #dc3545;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.no-players {
+  color: var(--color-text-light);
+  font-style: italic;
+  font-size: 14px;
+  padding: 20px;
+  text-align: center;
+}

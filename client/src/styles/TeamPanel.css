@@ -1,0 +1,117 @@
+.team-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.team-panel.red {
+  background: linear-gradient(180deg, rgba(139, 0, 0, 0.6) 0%, rgba(74, 0, 0, 0.8) 100%);
+  border-color: #FF6B6B;
+}
+
+.team-panel.blue {
+  background: linear-gradient(180deg, rgba(0, 51, 102, 0.6) 0%, rgba(0, 31, 63, 0.8) 100%);
+  border-color: #74B9FF;
+}
+
+.team-score-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.score-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.team-title {
+  text-align: center;
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: bold;
+  direction: rtl;
+}
+
+.players-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.role-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.role-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: bold;
+  direction: rtl;
+}
+
+.players-list {
+  direction: rtl;
+}
+
+.player-name {
+  font-size: 13px;
+  color: white;
+}
+
+.player-name.spymaster {
+  font-weight: bold;
+  color: #FFD700;
+}
+
+.no-players {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+.user-indicator {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 11px;
+  color: #FFD700;
+  text-align: center;
+  direction: rtl;
+}
+
+@media (max-width: 1024px) {
+  .team-panel {
+    flex: 1;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 600px) {
+  .team-panel {
+    padding: 10px;
+  }
+  
+  .score-circle {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .team-title {
+    font-size: 14px;
+  }
+}

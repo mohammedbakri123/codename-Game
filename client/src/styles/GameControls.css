@@ -1,0 +1,108 @@
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.controls-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-controls button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  direction: rtl;
+  font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'Arial', sans-serif;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+  color: #333;
+  padding: 15px 30px;
+  font-size: 18px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-warning {
+  background: linear-gradient(180deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+}
+
+.btn-warning:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.btn-play-next {
+  background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+  color: #333;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  direction: rtl;
+}
+
+.btn-play-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.5);
+}
+
+.user-info {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  text-align: center;
+  direction: rtl;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.victory-controls {
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .victory-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .controls-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .controls-row button {
+    width: 100%;
+  }
+}

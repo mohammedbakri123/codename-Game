@@ -1,0 +1,119 @@
+.game-log {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  max-height: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.log-title {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #E0E0E0;
+  direction: rtl;
+}
+
+.log-entries {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  direction: rtl;
+}
+
+.log-entry {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  direction: rtl;
+}
+
+.log-entry.clue {
+  background: #E3F2FD;
+  border-right: 3px solid #2196F3;
+}
+
+.log-entry.reveal {
+  background: #FFF3E0;
+  border-right: 3px solid #FF9800;
+}
+
+.log-entry.end_turn {
+  background: #F3E5F5;
+  border-right: 3px solid #9C27B0;
+}
+
+.log-entry.win {
+  background: #E8F5E9;
+  border-right: 3px solid #4CAF50;
+  font-weight: bold;
+}
+
+.log-team {
+  font-weight: bold;
+}
+
+.log-team.red {
+  color: #D32F2F;
+}
+
+.log-team.blue {
+  color: #1976D2;
+}
+
+.log-win {
+  font-weight: bold;
+  color: #388E3C;
+}
+
+.log-win.red {
+  color: #D32F2F;
+}
+
+.log-win.blue {
+  color: #1976D2;
+}
+
+.empty-log {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+  direction: rtl;
+}
+
+/* Scrollbar styling */
+.log-entries::-webkit-scrollbar {
+  width: 6px;
+}
+
+.log-entries::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 3px;
+}
+
+.log-entries::-webkit-scrollbar-thumb {
+  background: #BDBDBD;
+  border-radius: 3px;
+}
+
+.log-entries::-webkit-scrollbar-thumb:hover {
+  background: #9E9E9E;
+}
+
+@media (max-width: 1024px) {
+  .game-log {
+    max-height: 200px;
+    min-height: 150px;
+  }
+}
