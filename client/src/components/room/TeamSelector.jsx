@@ -1,6 +1,6 @@
 import '../../styles/components/TeamSelector.css';
 
-function TeamSelector({ selectedTeam, onSelectTeam }) {
+function TeamSelector({ selectedTeam, onSelectTeam, redCount = 0, blueCount = 0 }) {
   const teamNames = {
     red: 'الفريق الأحمر',
     blue: 'الفريق الأزرق'
@@ -16,7 +16,8 @@ function TeamSelector({ selectedTeam, onSelectTeam }) {
           className={`team-btn team-red ${selectedTeam === 'red' ? 'selected' : ''}`}
           onClick={() => onSelectTeam('red')}
         >
-          {teamNames.red}
+          <span className="team-name">{teamNames.red}</span>
+          <span className="team-count">({redCount})</span>
           {selectedTeam === 'red' && <span className="check-mark"> ✓</span>}
         </button>
         <button
@@ -24,11 +25,14 @@ function TeamSelector({ selectedTeam, onSelectTeam }) {
           className={`team-btn team-blue ${selectedTeam === 'blue' ? 'selected' : ''}`}
           onClick={() => onSelectTeam('blue')}
         >
-          {teamNames.blue}
+          <span className="team-name">{teamNames.blue}</span>
+          <span className="team-count">({blueCount})</span>
           {selectedTeam === 'blue' && <span className="check-mark"> ✓</span>}
         </button>
       </div>
-      {!selectedTeam && (
+      {selectedTeam ? (
+        <p className="success-message">✅ انضممت إلى {teamNames[selectedTeam]}</p>
+      ) : (
         <p className="warning">⚠️ الرجاء اختيار فريق</p>
       )}
     </div>

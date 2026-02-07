@@ -1,0 +1,125 @@
+.team-summary {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.team-summary h2 {
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.team-column {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  border: 2px solid transparent;
+}
+
+.team-red-box {
+  border-color: rgba(255, 107, 107, 0.5);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.team-blue-box {
+  border-color: rgba(77, 171, 247, 0.5);
+  background: rgba(77, 171, 247, 0.1);
+}
+
+.team-column h3 {
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.team-red-box h3 {
+  color: #ff6b6b;
+}
+
+.team-blue-box h3 {
+  color: #4dabf7;
+}
+
+.role-section {
+  margin-bottom: 15px;
+}
+
+.role-section h4 {
+  font-size: 0.9em;
+  color: #adb5bd;
+  margin-bottom: 8px;
+}
+
+.players-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.player-tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.player-tag.current {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+}
+
+.player-tag.unassigned-tag {
+  background: rgba(134, 142, 150, 0.3);
+}
+
+.you-badge {
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.empty-role {
+  color: #868e96;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.unassigned-section {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px dashed rgba(134, 142, 150, 0.5);
+}
+
+.unassigned-section h4 {
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+
+.team-stats {
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #adb5bd;
+  font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+  .teams-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -74,8 +74,22 @@
   font-weight: bold;
 }
 
+.team-count {
+  font-size: 12px;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
 .warning {
   color: #ffc107;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.success-message {
+  color: #51cf66;
   font-size: 14px;
   text-align: center;
   margin-top: 10px;

@@ -4,6 +4,7 @@ import { GameProvider } from '../contexts/GameContext';
 import HomePage from './pages/HomePage';
 import RoomPage from './pages/RoomPage';
 import GamePage from './pages/GamePage';
+import SocketTestPage from './pages/SocketTestPage';
 import '../styles/App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/room/:roomId" element={<RoomPage />} />
             <Route path="/game/:roomId" element={<GamePage />} />
+            <Route path="/test" element={<SocketTestPage />} />
           </Routes>
         </div>
       </GameProvider>

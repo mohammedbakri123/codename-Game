@@ -44,10 +44,10 @@ function initializeSocketIO(httpServer, roomManager, gameService) {
         const room = roomManager.getRoom(roomId);
         if (room) {
           room.removePlayer(socket.id);
-          socket.to(roomId).emit(SERVER_EVENTS.PLAYER_LEFT, {
+          io.in(roomId).emit(SERVER_EVENTS.PLAYER_LEFT, {
             playerId: socket.id
           });
-          io.to(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, room.toJSON());
+          io.in(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, room.toJSON());
         }
       }
     });

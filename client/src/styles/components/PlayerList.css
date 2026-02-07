@@ -129,3 +129,20 @@
   padding: 20px;
   text-align: center;
 }
+
+.player-item.disconnected-player {
+  opacity: 0.6;
+}
+
+.player-item.disconnected-player .player-name {
+  text-decoration: line-through;
+  color: #868e96;
+}
+
+.disconnected-hint {
+  font-size: 12px;
+  color: #868e96;
+  font-style: italic;
+  margin-bottom: 12px;
+  text-align: center;
+}

@@ -76,3 +76,23 @@
   color: var(--color-text-light);
   line-height: 1.8;
 }
+
+.debug-link {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #dee2e6;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 8px 16px;
+}
+
+.btn-text:hover {
+  color: var(--color-text);
+}

@@ -1,25 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { useSocket } from '../../contexts/SocketContext';
 import { useGame } from '../../contexts/GameContext';
-import { CLIENT_EVENTS } from '../../services/constants';
+import { CLIENT_EVENTS, SERVER_EVENTS } from '../../services/constants';
 import PlayerList from '../../components/room/PlayerList';
 import TeamSelector from '../../components/room/TeamSelector';
 import RoleSelector from '../../components/room/RoleSelector';
+import TeamSummary from '../../components/room/TeamSummary';
 import '../../styles/RoomPage.css';
 
 function RoomPage() {
   const { roomId } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { socket, isConnected } = useSocket();
-  const { room, game, error } = useGame();
+  const { socket, isConnected, reconnect } = useSocket();
+  const { room, game, error, setRoom } = useGame();
   
   const [playerName] = useState(searchParams.get('name') || 'لاعب');
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedRole, setSelectedRole] = useState('operative');
   const [hasJoined, setHasJoined] = useState(false);
   const [joinAttempts, setJoinAttempts] = useState(0);
+  const [joinError, setJoinError] = useState(null);
+  const [isJoining, setIsJoining] = useState(false);
+
+  // Reset join state when disconnected
+  useEffect(() => {
+    if (!isConnected && hasJoined) {
+      console.log('⚠️ RoomPage: Disconnected, resetting join state');
+      setHasJoined(false);
+      setRoom(null);
+    }
+  }, [isConnected, hasJoined, setRoom]);
 
   // Join room when connected
   useEffect(() => {
@@ -28,8 +40,8 @@ function RoomPage() {
       return;
     }
 
-    if (hasJoined) {
-      console.log('✅ RoomPage: Already joined room');
+    if (hasJoined || isJoining) {
+      console.log('✅ RoomPage: Already joined or joining room');
       return;
     }
 
@@ -37,6 +49,9 @@ function RoomPage() {
     console.log('   Socket ID:', socket.id);
     console.log('   Connected:', isConnected);
     console.log('   Socket transport:', socket?.io?.engine?.transport?.name);
+    
+    setIsJoining(true);
+    setJoinError(null);
     
     socket.emit(CLIENT_EVENTS.JOIN_ROOM, {
       roomId,
@@ -48,13 +63,40 @@ function RoomPage() {
     setHasJoined(true);
     setJoinAttempts(prev => prev + 1);
 
+    // Set timeout to check if we received room update
+    const timeout = setTimeout(() => {
+      if (!room && hasJoined) {
+        console.warn('⚠️ RoomPage: No room update received after 5 seconds');
+        setJoinError('لم يتم استلام تحديث الغرفة. جاري إعادة المحاولة...');
+        setHasJoined(false);
+        setIsJoining(false);
+      }
+    }, 5000);
+
     return () => {
-      if (socket && isConnected) {
-        console.log('👋 RoomPage: Leaving room');
-        socket.emit(CLIENT_EVENTS.LEAVE_ROOM);
+      clearTimeout(timeout);
+      // Don't send LEAVE_ROOM here - the server will handle disconnect naturally
+      // when the socket disconnects. Sending it here causes issues with React
+      // StrictMode and component re-renders.
+    };
+  }, [socket, isConnected, roomId, playerName, hasJoined, isJoining, room]);
+
+  // Listen for join errors
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleError = (errorData) => {
+      if (errorData?.message?.includes('room') || errorData?.message?.includes('join')) {
+        console.error('❌ RoomPage: Join error:', errorData.message);
+        setJoinError(errorData.message);
+        setHasJoined(false);
+        setIsJoining(false);
       }
     };
-  }, [socket, isConnected, roomId, playerName, hasJoined]);
+
+    socket.on(SERVER_EVENTS.ERROR, handleError);
+    return () => socket.off(SERVER_EVENTS.ERROR, handleError);
+  }, [socket]);
 
   // Navigate to game when started
   useEffect(() => {
@@ -87,7 +129,7 @@ function RoomPage() {
   };
 
   const isHost = room?.hostId === socket?.id;
-  const canStart = room && room.players?.length >= 4;
+  const canStart = room && room.players?.length >= 2;
   const currentPlayer = room?.players?.find(p => p.id === socket?.id);
   
   // Sync local state with server
@@ -113,6 +155,9 @@ function RoomPage() {
             <h2>🔌 جاري الاتصال بالخادم...</h2>
             <div className="spinner"></div>
             <p>يرجى الانتظار</p>
+            {joinAttempts > 0 && (
+              <p className="attempts-info">محاولة {joinAttempts}</p>
+            )}
             <div className="debug-info">
               <p>محاولة الاتصال بـ: {import.meta.env.VITE_SERVER_URL || 'http://localhost:3001'}</p>
               <p>معلومات الاتصال:</p>
@@ -122,6 +167,11 @@ function RoomPage() {
                 <li>المحاولات: {joinAttempts}</li>
               </ul>
             </div>
+            {joinAttempts > 2 && (
+              <button onClick={reconnect} className="btn btn-secondary">
+                إعادة الاتصال
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -155,6 +205,8 @@ function RoomPage() {
               <TeamSelector 
                 selectedTeam={selectedTeam}
                 onSelectTeam={handleUpdateTeam}
+                redCount={room?.players?.filter(p => p.team === 'red' && p.connected).length || 0}
+                blueCount={room?.players?.filter(p => p.team === 'blue' && p.connected).length || 0}
               />
               
               <RoleSelector
@@ -173,7 +225,7 @@ function RoomPage() {
                   ▶️ بدء اللعبة
                 </button>
                 {!canStart && (
-                  <p className="hint">👥 تحتاج إلى 4 لاعبين (موجود: {room?.players?.length || 0})</p>
+                  <p className="hint">👥 تحتاج إلى لاعبين على الأقل (موجود: {room?.players?.length || 0})</p>
                 )}
               </div>
             ) : (
@@ -192,17 +244,23 @@ function RoomPage() {
                 <p className="debug-hint">أنتظر وصول تحديث الغرفة...</p>
               </div>
             ) : (
-              <PlayerList 
-                players={room.players || []} 
-                currentPlayerId={socket?.id}
-              />
+              <>
+                <TeamSummary 
+                  players={room.players || []} 
+                  currentPlayerId={socket?.id}
+                />
+                <PlayerList 
+                  players={room.players || []} 
+                  currentPlayerId={socket?.id}
+                />
+              </>
             )}
           </div>
         </div>
 
-        {error && (
+        {(error || joinError) && (
           <div className="error-banner">
-            ⚠️ {error}
+            ⚠️ {error || joinError}
           </div>
         )}
       </div>

@@ -91,6 +91,15 @@ function HomePage() {
             <li>تجنب كرت القاتل!</li>
           </ul>
         </div>
+        
+        <div className="debug-link">
+          <button 
+            onClick={() => navigate('/test')}
+            className="btn btn-text"
+          >
+            🔧 فحص الاتصال
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -7,11 +7,12 @@ function PlayerList({ players, currentPlayerId }) {
 
   // Filter to show all players in room
   const allPlayers = players || [];
-  const connectedPlayers = allPlayers.filter(p => p.connected);
-  const disconnectedPlayers = allPlayers.filter(p => !p.connected);
+  const connectedPlayers = allPlayers.filter(p => p.connected !== false);
+  const disconnectedPlayers = allPlayers.filter(p => p.connected === false);
   
   console.log('   Connected players:', connectedPlayers.length);
   console.log('   Disconnected players:', disconnectedPlayers.length);
+  console.log('   All players data:', allPlayers.map(p => ({ id: p.id, name: p.name, connected: p.connected })));
   
   const redTeam = connectedPlayers.filter(p => p.team === 'red');
   const blueTeam = connectedPlayers.filter(p => p.team === 'blue');
@@ -34,10 +35,10 @@ function PlayerList({ players, currentPlayerId }) {
 
   const renderPlayer = (player) => {
     const isCurrentPlayer = player.id === currentPlayerId;
-    console.log('   Rendering player:', player.name, 'Team:', player.team, 'Is Current:', isCurrentPlayer);
+    console.log('   Rendering player:', player.name, 'Team:', player.team, 'Is Current:', isCurrentPlayer, 'Connected:', player.connected);
     
     return (
-      <div key={player.id} className={`player-item ${isCurrentPlayer ? 'current-player' : ''}`}>
+      <div key={player.id} className={`player-item ${isCurrentPlayer ? 'current-player' : ''} ${!player.connected ? 'disconnected-player' : ''}`}>
         <span className="player-name">
           {player.name}
           {isCurrentPlayer && <span className="you-badge"> (أنت) </span>}
@@ -90,6 +91,7 @@ function PlayerList({ players, currentPlayerId }) {
       {disconnectedPlayers.length > 0 && (
         <div className="team-section disconnected-section">
           <h3>غير متصلين ({disconnectedPlayers.length})</h3>
+          <p className="disconnected-hint">هؤلاء اللاعبين انفصلوا عن اللعبة</p>
           {disconnectedPlayers.map(renderPlayer)}
         </div>
       )}

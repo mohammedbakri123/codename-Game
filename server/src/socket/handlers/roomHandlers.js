@@ -1,3 +1,5 @@
+const { CLIENT_EVENTS, SERVER_EVENTS } = require('../events');
+
 function createRoomHandlers(io, socket, roomManager, gameService) {
   return {
     [CLIENT_EVENTS.JOIN_ROOM]: (data) => {
@@ -44,21 +46,19 @@ function createRoomHandlers(io, socket, roomManager, gameService) {
 
         console.log('   Room players after add:', room.getAllPlayers().length);
 
-        // Send room update to the player who joined
+        // Get updated room state
         const roomUpdate = room.toJSON();
-        console.log('📤 Sending ROOM_UPDATE to player:', roomUpdate);
-        socket.emit(SERVER_EVENTS.ROOM_UPDATE, roomUpdate);
-
-        // Notify others in room
         const playerAdded = room.getPlayer(socket.id);
-        console.log('📢 Broadcasting PLAYER_JOINED:', playerAdded);
+        
+        // Broadcast full room update to ALL players in the room (including sender)
+        console.log('📢 Broadcasting ROOM_UPDATE to all:', roomUpdate);
+        io.in(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, roomUpdate);
+        
+        // Also notify others that a new player joined (for toast notifications, etc.)
+        console.log('📢 Broadcasting PLAYER_JOINED to others:', playerAdded);
         socket.to(roomId).emit(SERVER_EVENTS.PLAYER_JOINED, {
           player: playerAdded
         });
-
-        // Also broadcast full room update to everyone
-        console.log('📢 Broadcasting ROOM_UPDATE to all:', roomUpdate);
-        io.to(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, roomUpdate);
 
         // Send current game state if game exists
         const game = gameService.getGame(roomId);
@@ -92,7 +92,7 @@ function createRoomHandlers(io, socket, roomManager, gameService) {
             playerId: socket.id
           });
 
-          io.to(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, room.toJSON());
+          io.in(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, room.toJSON());
         }
 
         socket.leave(roomId);
@@ -135,8 +135,7 @@ function createRoomHandlers(io, socket, roomManager, gameService) {
 
         const roomUpdate = room.toJSON();
         console.log('📢 Broadcasting ROOM_UPDATE to all:', roomUpdate.players.length, 'players');
-        io.to(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, roomUpdate);
-        socket.emit(SERVER_EVENTS.ROOM_UPDATE, roomUpdate);
+        io.in(roomId).emit(SERVER_EVENTS.ROOM_UPDATE, roomUpdate);
 
       } catch (error) {
         console.error('❌ [UPDATE_PLAYER] Error:', error);
