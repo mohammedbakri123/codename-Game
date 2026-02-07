@@ -1,4 +1,4 @@
-import '../../styles/components/TeamSelector.css';
+import styles from '../../styles/components/TeamSelector.module.css';
 
 function TeamSelector({ selectedTeam, onSelectTeam, redCount = 0, blueCount = 0 }) {
   const teamNames = {
@@ -7,33 +7,33 @@ function TeamSelector({ selectedTeam, onSelectTeam, redCount = 0, blueCount = 0 
   };
 
   return (
-    <div className="team-selector">
+    <div className={styles['team-selector']}>
       <h3>اختر فريقك</h3>
-      <p className="team-hint">اضغط على الفريق للانضمام</p>
-      <div className="team-buttons">
+      <p className={styles['team-hint']}>اضغط على الفريق للانضمام</p>
+      <div className={styles['team-buttons']}>
         <button
           type="button"
-          className={`team-btn team-red ${selectedTeam === 'red' ? 'selected' : ''}`}
+          className={`${styles['team-btn']} ${styles['team-red']} ${selectedTeam === 'red' ? styles.selected : ''}`}
           onClick={() => onSelectTeam('red')}
         >
-          <span className="team-name">{teamNames.red}</span>
-          <span className="team-count">({redCount})</span>
-          {selectedTeam === 'red' && <span className="check-mark"> ✓</span>}
+          <span className={styles['team-name']}>{teamNames.red}</span>
+          <span className={styles['team-count']}>({redCount})</span>
+          {selectedTeam === 'red' && <span className={styles['check-mark']}> ✓</span>}
         </button>
         <button
           type="button"
-          className={`team-btn team-blue ${selectedTeam === 'blue' ? 'selected' : ''}`}
+          className={`${styles['team-btn']} ${styles['team-blue']} ${selectedTeam === 'blue' ? styles.selected : ''}`}
           onClick={() => onSelectTeam('blue')}
         >
-          <span className="team-name">{teamNames.blue}</span>
-          <span className="team-count">({blueCount})</span>
-          {selectedTeam === 'blue' && <span className="check-mark"> ✓</span>}
+          <span className={styles['team-name']}>{teamNames.blue}</span>
+          <span className={styles['team-count']}>({blueCount})</span>
+          {selectedTeam === 'blue' && <span className={styles['check-mark']}> ✓</span>}
         </button>
       </div>
       {selectedTeam ? (
-        <p className="success-message">✅ انضممت إلى {teamNames[selectedTeam]}</p>
+        <p className={styles['success-message']}>✅ انضممت إلى {teamNames[selectedTeam]}</p>
       ) : (
-        <p className="warning">⚠️ الرجاء اختيار فريق</p>
+        <p className={styles.warning}>⚠️ الرجاء اختيار فريق</p>
       )}
     </div>
   );

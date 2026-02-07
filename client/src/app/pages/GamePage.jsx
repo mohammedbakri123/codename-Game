@@ -7,7 +7,7 @@ import GameBoard from '../../components/board/GameBoard';
 import ClueDisplay from '../../components/clue/ClueDisplay';
 import GameControls from '../../components/controls/GameControls';
 import TeamScore from '../../components/board/TeamScore';
-import '../../styles/GamePage.css';
+import styles from '../../styles/GamePage.module.css';
 
 function GamePage() {
   const { roomId } = useParams();
@@ -58,7 +58,7 @@ function GamePage() {
   };
 
   if (!game) {
-    return <div className="loading">جاري تحميل اللعبة...</div>;
+    return <div className={styles.loading}>جاري تحميل اللعبة...</div>;
   }
 
   const currentPlayer = room?.players?.find(p => p.id === socket?.id);
@@ -71,17 +71,17 @@ function GamePage() {
   };
 
   return (
-    <div className="game-page">
-      <div className="game-container" dir="rtl">
-        <header className="game-header">
+    <div className={styles['game-page']}>
+      <div className={styles['game-container']} dir="rtl">
+        <header className={styles['game-header']}>
           <h1>كود نيمز</h1>
-          <div className="turn-indicator">
-            الدور الحالي: <span className={`team-${game.turn}`}>{teamNames[game.turn]}</span>
+          <div className={styles['turn-indicator']}>
+            الدور الحالي: <span className={styles[`team-${game.turn}`]}>{teamNames[game.turn]}</span>
           </div>
         </header>
 
-        <div className="game-layout">
-          <aside className="game-sidebar">
+        <div className={styles['game-layout']}>
+          <aside className={styles['game-sidebar']}>
             <TeamScore 
               redRemaining={game.teams.red.remaining}
               blueRemaining={game.teams.blue.remaining}
@@ -103,7 +103,7 @@ function GamePage() {
             />
           </aside>
 
-          <main className="game-main">
+          <main className={styles['game-main']}>
             <GameBoard
               board={game.board}
               isSpymaster={isSpymaster}
@@ -115,14 +115,14 @@ function GamePage() {
         </div>
 
         {game.winner && (
-          <div className="winner-overlay">
-            <div className="winner-modal">
-              <h2 className={`winner-text team-${game.winner}`}>
+          <div className={styles['winner-overlay']}>
+            <div className={styles['winner-modal']}>
+              <h2 className={`${styles['winner-text']} ${styles[`team-${game.winner}`]}`}>
                 فاز فريق {teamNames[game.winner]}!
               </h2>
               <button 
                 onClick={() => navigate('/')}
-                className="btn btn-primary"
+                className={`${styles.btn} ${styles['btn-primary']}`}
               >
                 العودة للرئيسية
               </button>

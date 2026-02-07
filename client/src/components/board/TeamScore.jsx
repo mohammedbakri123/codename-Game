@@ -1,4 +1,4 @@
-import '../../styles/components/TeamScore.css';
+import styles from '../../styles/components/TeamScore.module.css';
 
 function TeamScore({ redRemaining, blueRemaining, currentTurn }) {
   const teamNames = {
@@ -7,19 +7,19 @@ function TeamScore({ redRemaining, blueRemaining, currentTurn }) {
   };
 
   return (
-    <div className="team-score">
-      <div className={`score-card team-red ${currentTurn === 'red' ? 'active' : ''}`}>
+    <div className={styles['team-score']}>
+      <div className={`${styles['score-card']} ${styles['team-red']} ${currentTurn === 'red' ? styles.active : ''}`}>
         <h3>{teamNames.red}</h3>
-        <span className="score">{redRemaining}</span>
-        {currentTurn === 'red' && <span className="turn-indicator">دورك</span>}
+        <span className={styles.score}>{redRemaining}</span>
+        {currentTurn === 'red' && <span className={styles['turn-indicator']}>دورك</span>}
       </div>
       
-      <div className="vs">ضد</div>
+      <div className={styles.vs}>ضد</div>
       
-      <div className={`score-card team-blue ${currentTurn === 'blue' ? 'active' : ''}`}>
+      <div className={`${styles['score-card']} ${styles['team-blue']} ${currentTurn === 'blue' ? styles.active : ''}`}>
         <h3>{teamNames.blue}</h3>
-        <span className="score">{blueRemaining}</span>
-        {currentTurn === 'blue' && <span className="turn-indicator">دورك</span>}
+        <span className={styles.score}>{blueRemaining}</span>
+        {currentTurn === 'blue' && <span className={styles['turn-indicator']}>دورك</span>}
       </div>
     </div>
   );

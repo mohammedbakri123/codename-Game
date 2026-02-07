@@ -5,13 +5,13 @@ import HomePage from './pages/HomePage';
 import RoomPage from './pages/RoomPage';
 import GamePage from './pages/GamePage';
 import SocketTestPage from './pages/SocketTestPage';
-import '../styles/App.css';
+import styles from '../styles/App.module.css';
 
 function App() {
   return (
     <SocketProvider>
       <GameProvider>
-        <div className="app">
+        <div className={styles.app}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/room/:roomId" element={<RoomPage />} />

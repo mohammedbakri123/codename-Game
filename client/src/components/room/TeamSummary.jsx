@@ -1,4 +1,4 @@
-import '../../styles/components/TeamSummary.css';
+import styles from '../../styles/components/TeamSummary.module.css';
 
 function TeamSummary({ players, currentPlayerId }) {
   const roleNames = {
@@ -16,99 +16,99 @@ function TeamSummary({ players, currentPlayerId }) {
   const blueOperatives = blueTeam.filter(p => p.role !== 'spymaster');
 
   return (
-    <div className="team-summary" dir="rtl">
+    <div className={styles['team-summary']} dir="rtl">
       <h2>📊 توزيع الفرق</h2>
       
-      <div className="teams-grid">
-        <div className="team-column team-red-box">
+      <div className={styles['teams-grid']}>
+        <div className={`${styles['team-column']} ${styles['team-red-box']}`}>
           <h3>🔴 الفريق الأحمر ({redTeam.length})</h3>
           
-          <div className="role-section">
+          <div className={styles['role-section']}>
             <h4>القائد:</h4>
             {redSpymaster ? (
-              <div className={`player-tag ${redSpymaster.id === currentPlayerId ? 'current' : ''}`}>
+              <div className={`${styles['player-tag']} ${redSpymaster.id === currentPlayerId ? styles.current : ''}`}>
                 {redSpymaster.name}
-                {redSpymaster.id === currentPlayerId && <span className="you-badge"> (أنت)</span>}
+                {redSpymaster.id === currentPlayerId && <span className={styles['you-badge']}> (أنت)</span>}
               </div>
             ) : (
-              <p className="empty-role">لم يتم التعيين</p>
+              <p className={styles['empty-role']}>لم يتم التعيين</p>
             )}
           </div>
 
-          <div className="role-section">
+          <div className={styles['role-section']}>
             <h4>العملاء ({redOperatives.length}):</h4>
             {redOperatives.length > 0 ? (
-              <div className="players-list">
+              <div className={styles['players-list']}>
                 {redOperatives.map(player => (
                   <div 
                     key={player.id} 
-                    className={`player-tag ${player.id === currentPlayerId ? 'current' : ''}`}
+                    className={`${styles['player-tag']} ${player.id === currentPlayerId ? styles.current : ''}`}
                   >
                     {player.name}
-                    {player.id === currentPlayerId && <span className="you-badge"> (أنت)</span>}
+                    {player.id === currentPlayerId && <span className={styles['you-badge']}> (أنت)</span>}
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="empty-role">لا يوجد عملاء</p>
+              <p className={styles['empty-role']}>لا يوجد عملاء</p>
             )}
           </div>
         </div>
 
-        <div className="team-column team-blue-box">
+        <div className={`${styles['team-column']} ${styles['team-blue-box']}`}>
           <h3>🔵 الفريق الأزرق ({blueTeam.length})</h3>
           
-          <div className="role-section">
+          <div className={styles['role-section']}>
             <h4>القائد:</h4>
             {blueSpymaster ? (
-              <div className={`player-tag ${blueSpymaster.id === currentPlayerId ? 'current' : ''}`}>
+              <div className={`${styles['player-tag']} ${blueSpymaster.id === currentPlayerId ? styles.current : ''}`}>
                 {blueSpymaster.name}
-                {blueSpymaster.id === currentPlayerId && <span className="you-badge"> (أنت)</span>}
+                {blueSpymaster.id === currentPlayerId && <span className={styles['you-badge']}> (أنت)</span>}
               </div>
             ) : (
-              <p className="empty-role">لم يتم التعيين</p>
+              <p className={styles['empty-role']}>لم يتم التعيين</p>
             )}
           </div>
 
-          <div className="role-section">
+          <div className={styles['role-section']}>
             <h4>العملاء ({blueOperatives.length}):</h4>
             {blueOperatives.length > 0 ? (
-              <div className="players-list">
+              <div className={styles['players-list']}>
                 {blueOperatives.map(player => (
                   <div 
                     key={player.id} 
-                    className={`player-tag ${player.id === currentPlayerId ? 'current' : ''}`}
+                    className={`${styles['player-tag']} ${player.id === currentPlayerId ? styles.current : ''}`}
                   >
                     {player.name}
-                    {player.id === currentPlayerId && <span className="you-badge"> (أنت)</span>}
+                    {player.id === currentPlayerId && <span className={styles['you-badge']}> (أنت)</span>}
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="empty-role">لا يوجد عملاء</p>
+              <p className={styles['empty-role']}>لا يوجد عملاء</p>
             )}
           </div>
         </div>
       </div>
 
       {unassigned.length > 0 && (
-        <div className="unassigned-section">
+        <div className={styles['unassigned-section']}>
           <h4>⚪ غير مسندين ({unassigned.length}):</h4>
-          <div className="players-list">
+          <div className={styles['players-list']}>
             {unassigned.map(player => (
               <div 
                 key={player.id} 
-                className={`player-tag unassigned-tag ${player.id === currentPlayerId ? 'current' : ''}`}
+                className={`${styles['player-tag']} ${styles['unassigned-tag']} ${player.id === currentPlayerId ? styles.current : ''}`}
               >
                 {player.name}
-                {player.id === currentPlayerId && <span className="you-badge"> (أنت)</span>}
+                {player.id === currentPlayerId && <span className={styles['you-badge']}> (أنت)</span>}
               </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className="team-stats">
+      <div className={styles['team-stats']}>
         <p>📊 الإجمالي: {players.filter(p => p.connected).length} لاعب | 🔴 {redTeam.length} | 🔵 {blueTeam.length} | ⚪ {unassigned.length}</p>
       </div>
     </div>

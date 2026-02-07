@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { generateRoomId } from '../../utils/roomUtils';
-import '../../styles/HomePage.css';
+import styles from '../../styles/HomePage.module.css';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -34,32 +34,32 @@ function HomePage() {
   };
 
   return (
-    <div className="home-page">
-      <div className="home-container">
-        <h1 className="title">كود نيمز</h1>
-        <p className="subtitle">لعبة كلمات متعددة اللاعبين عبر الإنترنت</p>
+    <div className={styles['home-page']}>
+      <div className={styles['home-container']}>
+        <h1 className={styles.title}>كود نيمز</h1>
+        <p className={styles.subtitle}>لعبة كلمات متعددة اللاعبين عبر الإنترنت</p>
         
-        <div className="form-container">
+        <div className={styles['form-container']}>
           <input
             type="text"
             placeholder="أدخل اسمك"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
-            className="input"
+            className={styles.input}
             maxLength={20}
             dir="rtl"
           />
           
-          {error && <p className="error">{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
           
           <button 
             onClick={handleCreateRoom}
-            className="btn btn-primary"
+            className={`${styles.btn} ${styles['btn-primary']}`}
           >
             إنشاء غرفة جديدة
           </button>
           
-          <div className="divider">
+          <div className={styles.divider}>
             <span>أو</span>
           </div>
           
@@ -68,21 +68,21 @@ function HomePage() {
             placeholder="أدخل رمز الغرفة"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value.toUpperCase())}
-            className="input"
+            className={styles.input}
             maxLength={6}
             dir="rtl"
           />
           
           <button 
             onClick={handleJoinRoom}
-            className="btn btn-secondary"
+            className={`${styles.btn} ${styles['btn-secondary']}`}
             disabled={!roomId.trim()}
           >
             الانضمام للغرفة
           </button>
         </div>
         
-        <div className="rules" dir="rtl">
+        <div className={styles.rules} dir="rtl">
           <h3>كيفية اللعب</h3>
           <ul>
             <li>يتنافس فريقان: الأحمر ضد الأزرق</li>
@@ -92,10 +92,10 @@ function HomePage() {
           </ul>
         </div>
         
-        <div className="debug-link">
+        <div className={styles['debug-link']}>
           <button 
             onClick={() => navigate('/test')}
-            className="btn btn-text"
+            className={`${styles.btn} ${styles['btn-text']}`}
           >
             🔧 فحص الاتصال
           </button>

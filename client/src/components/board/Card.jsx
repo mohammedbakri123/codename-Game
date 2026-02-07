@@ -1,4 +1,4 @@
-import '../../styles/components/Card.css';
+import styles from '../../styles/components/Card.module.css';
 
 function Card({ card, isSpymaster, currentTeam, phase, onSelect }) {
   const canSelect = !card.revealed && 
@@ -6,18 +6,18 @@ function Card({ card, isSpymaster, currentTeam, phase, onSelect }) {
                     !isSpymaster;
 
   const getCardClass = () => {
-    const classes = ['card'];
+    const classes = [styles.card];
     
     if (card.revealed) {
-      classes.push(`revealed-${card.color}`);
+      classes.push(styles[`revealed-${card.color}`]);
     } else if (isSpymaster) {
-      classes.push(`spymaster-${card.color}`);
+      classes.push(styles[`spymaster-${card.color}`]);
     } else {
-      classes.push('unrevealed');
+      classes.push(styles.unrevealed);
     }
     
     if (canSelect) {
-      classes.push('selectable');
+      classes.push(styles.selectable);
     }
     
     return classes.join(' ');
@@ -28,7 +28,7 @@ function Card({ card, isSpymaster, currentTeam, phase, onSelect }) {
       className={getCardClass()}
       onClick={canSelect ? onSelect : undefined}
     >
-      <span className="card-word">{card.word}</span>
+      <span className={styles['card-word']}>{card.word}</span>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import PlayerList from '../../components/room/PlayerList';
 import TeamSelector from '../../components/room/TeamSelector';
 import RoleSelector from '../../components/room/RoleSelector';
 import TeamSummary from '../../components/room/TeamSummary';
-import '../../styles/RoomPage.css';
+import styles from '../../styles/RoomPage.module.css';
 
 function RoomPage() {
   const { roomId } = useParams();
@@ -149,16 +149,16 @@ function RoomPage() {
   // Show connection status
   if (!isConnected) {
     return (
-      <div className="room-page">
-        <div className="connection-status" dir="rtl">
-          <div className="status-box connecting">
+      <div className={styles['room-page']}>
+        <div className={styles['connection-status']} dir="rtl">
+          <div className={`${styles['status-box']} ${styles.connecting}`}>
             <h2>🔌 جاري الاتصال بالخادم...</h2>
-            <div className="spinner"></div>
+            <div className={styles.spinner}></div>
             <p>يرجى الانتظار</p>
             {joinAttempts > 0 && (
-              <p className="attempts-info">محاولة {joinAttempts}</p>
+              <p className={styles['attempts-info']}>محاولة {joinAttempts}</p>
             )}
-            <div className="debug-info">
+            <div className={styles['debug-info']}>
               <p>محاولة الاتصال بـ: {import.meta.env.VITE_SERVER_URL || 'http://localhost:3001'}</p>
               <p>معلومات الاتصال:</p>
               <ul>
@@ -168,7 +168,7 @@ function RoomPage() {
               </ul>
             </div>
             {joinAttempts > 2 && (
-              <button onClick={reconnect} className="btn btn-secondary">
+              <button onClick={reconnect} className={`${styles.btn} ${styles['btn-secondary']}`}>
                 إعادة الاتصال
               </button>
             )}
@@ -179,24 +179,24 @@ function RoomPage() {
   }
 
   return (
-    <div className="room-page">
-      <div className="room-container" dir="rtl">
-        <div className="connection-bar">
-          <span className="connected-badge">
+    <div className={styles['room-page']}>
+      <div className={styles['room-container']} dir="rtl">
+        <div className={styles['connection-bar']}>
+          <span className={styles['connected-badge']}>
             ✓ متصل 
-            {socket?.id && <span className="socket-id">ID: {socket.id.substring(0, 8)}</span>}
+            {socket?.id && <span className={styles['socket-id']}>ID: {socket.id.substring(0, 8)}</span>}
           </span>
-          <span className="room-code">الغرفة: <strong>{roomId}</strong></span>
+          <span className={styles['room-code']}>الغرفة: <strong>{roomId}</strong></span>
         </div>
         
-        <div className="room-content">
-          <div className="room-sidebar">
-            <div className="player-section">
+        <div className={styles['room-content']}>
+          <div className={styles['room-sidebar']}>
+            <div className={styles['player-section']}>
               <h2>⚙️ إعداداتك</h2>
-              <p className="player-name">الاسم: <strong>{playerName}</strong></p>
+              <p className={styles['player-name']}>الاسم: <strong>{playerName}</strong></p>
               
-              <div className="current-status">
-                <p>فريقك: <strong className={selectedTeam === 'red' ? 'team-red-text' : selectedTeam === 'blue' ? 'team-blue-text' : ''}>
+              <div className={styles['current-status']}>
+                <p>فريقك: <strong className={selectedTeam === 'red' ? styles['team-red-text'] : selectedTeam === 'blue' ? styles['team-blue-text'] : ''}>
                   {selectedTeam === 'red' ? '🔴 الأحمر' : selectedTeam === 'blue' ? '🔵 الأزرق' : '⚪ لم تختر'}
                 </strong></p>
                 <p>دورك: <strong>{selectedRole === 'spymaster' ? '👑 قائد' : '🕵️ عميل'}</strong></p>
@@ -216,32 +216,32 @@ function RoomPage() {
             </div>
 
             {isHost ? (
-              <div className="host-section">
+              <div className={styles['host-section']}>
                 <button
                   onClick={handleStartGame}
                   disabled={!canStart}
-                  className="btn btn-primary btn-start"
+                  className={`${styles.btn} ${styles['btn-primary']} ${styles['btn-start']}`}
                 >
                   ▶️ بدء اللعبة
                 </button>
                 {!canStart && (
-                  <p className="hint">👥 تحتاج إلى لاعبين على الأقل (موجود: {room?.players?.length || 0})</p>
+                  <p className={styles.hint}>👥 تحتاج إلى لاعبين على الأقل (موجود: {room?.players?.length || 0})</p>
                 )}
               </div>
             ) : (
-              <div className="waiting-section">
-                <p className="hint">⏳ في انتظار بدء المضيف...</p>
-                <p className="players-count">👥 اللاعبين: {room?.players?.length || 0}</p>
+              <div className={styles['waiting-section']}>
+                <p className={styles.hint}>⏳ في انتظار بدء المضيف...</p>
+                <p className={styles['players-count']}>👥 اللاعبين: {room?.players?.length || 0}</p>
               </div>
             )}
           </div>
 
-          <div className="room-main">
+          <div className={styles['room-main']}>
             {!room ? (
-              <div className="loading-players">
-                <div className="spinner"></div>
+              <div className={styles['loading-players']}>
+                <div className={styles.spinner}></div>
                 <p>جاري تحميل بيانات الغرفة...</p>
-                <p className="debug-hint">أنتظر وصول تحديث الغرفة...</p>
+                <p className={styles['debug-hint']}>أنتظر وصول تحديث الغرفة...</p>
               </div>
             ) : (
               <>
@@ -259,7 +259,7 @@ function RoomPage() {
         </div>
 
         {(error || joinError) && (
-          <div className="error-banner">
+          <div className={styles['error-banner']}>
             ⚠️ {error || joinError}
           </div>
         )}

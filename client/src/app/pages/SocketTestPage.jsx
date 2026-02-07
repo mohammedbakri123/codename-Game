@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../contexts/SocketContext';
 import { useGame } from '../../contexts/GameContext';
-import '../../styles/SocketTest.css';
+import styles from '../../styles/SocketTest.module.css';
 
 function SocketTestPage() {
   const { socket, isConnected, connectionError, reconnectAttempt } = useSocket();
@@ -71,76 +71,76 @@ function SocketTestPage() {
   };
 
   return (
-    <div className="socket-test-page">
-      <div className="test-container">
+    <div className={styles['socket-test-page']}>
+      <div className={styles['test-container']}>
         <h1>Socket Connection Test</h1>
         
-        <div className="status-panel">
-          <div className={`status-item ${isConnected ? 'success' : 'error'}`}>
-            <span className="status-label">Connection:</span>
-            <span className="status-value">
+        <div className={styles['status-panel']}>
+          <div className={`${styles['status-item']} ${isConnected ? styles.success : styles.error}`}>
+            <span className={styles['status-label']}>Connection:</span>
+            <span className={styles['status-value']}>
               {isConnected ? '✅ Connected' : '❌ Disconnected'}
             </span>
           </div>
           
-          <div className="status-item">
-            <span className="status-label">Socket ID:</span>
-            <span className="status-value">{socket?.id || 'N/A'}</span>
+          <div className={styles['status-item']}>
+            <span className={styles['status-label']}>Socket ID:</span>
+            <span className={styles['status-value']}>{socket?.id || 'N/A'}</span>
           </div>
           
-          <div className="status-item">
-            <span className="status-label">Reconnect Attempts:</span>
-            <span className="status-value">{reconnectAttempt}</span>
+          <div className={styles['status-item']}>
+            <span className={styles['status-label']}>Reconnect Attempts:</span>
+            <span className={styles['status-value']}>{reconnectAttempt}</span>
           </div>
           
-          <div className="status-item">
-            <span className="status-label">Room:</span>
-            <span className="status-value">
+          <div className={styles['status-item']}>
+            <span className={styles['status-label']}>Room:</span>
+            <span className={styles['status-value']}>
               {room ? `${room.id} (${room.players?.length} players)` : 'Not in room'}
             </span>
           </div>
           
-          <div className="status-item">
-            <span className="status-label">Game:</span>
-            <span className="status-value">
+          <div className={styles['status-item']}>
+            <span className={styles['status-label']}>Game:</span>
+            <span className={styles['status-value']}>
               {game ? `${game.phase} (${game.board?.length} cards)` : 'No game'}
             </span>
           </div>
           
           {error && (
-            <div className="status-item error">
-              <span className="status-label">Error:</span>
-              <span className="status-value">{error}</span>
+            <div className={`${styles['status-item']} ${styles.error}`}>
+              <span className={styles['status-label']}>Error:</span>
+              <span className={styles['status-value']}>{error}</span>
             </div>
           )}
         </div>
 
-        <div className="test-actions">
-          <button onClick={testConnection} className="btn btn-primary">
+        <div className={styles['test-actions']}>
+          <button onClick={testConnection} className={`${styles.btn} ${styles['btn-primary']}`}>
             Test Connection
           </button>
-          <button onClick={clearLogs} className="btn btn-secondary">
+          <button onClick={clearLogs} className={`${styles.btn} ${styles['btn-secondary']}`}>
             Clear Logs
           </button>
         </div>
 
-        <div className="logs-panel">
+        <div className={styles['logs-panel']}>
           <h3>Event Logs</h3>
-          <div className="logs-container">
+          <div className={styles['logs-container']}>
             {logs.length === 0 ? (
-              <p className="no-logs">No logs yet. Click "Test Connection" to start.</p>
+              <p className={styles['no-logs']}>No logs yet. Click "Test Connection" to start.</p>
             ) : (
               logs.map((log, index) => (
-                <div key={index} className={`log-entry ${log.type}`}>
-                  <span className="log-time">{log.time}</span>
-                  <span className="log-message">{log.message}</span>
+                <div key={index} className={`${styles['log-entry']} ${styles[log.type]}`}>
+                  <span className={styles['log-time']}>{log.time}</span>
+                  <span className={styles['log-message']}>{log.message}</span>
                 </div>
               ))
             )}
           </div>
         </div>
 
-        <div className="debug-info">
+        <div className={styles['debug-info']}>
           <h3>Debug Information</h3>
           <pre>{JSON.stringify({
             socket: {

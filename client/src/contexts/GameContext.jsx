@@ -1,23 +1,63 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useReducer, useCallback } from 'react';
 import { useSocket } from './SocketContext';
 import { SERVER_EVENTS } from '../services/constants';
 
 const GameContext = createContext(null);
 
+const initialState = {
+  room: null,
+  game: null,
+  error: null,
+  isLoading: false
+};
+
+function gameReducer(state, action) {
+  switch (action.type) {
+    case 'SET_ROOM':
+      return {
+        ...state,
+        room: action.payload,
+        isLoading: false
+      };
+    case 'SET_GAME':
+      return {
+        ...state,
+        game: action.payload
+      };
+    case 'SET_ERROR':
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false
+      };
+    case 'CLEAR_ERROR':
+      return {
+        ...state,
+        error: null
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        isLoading: action.payload
+      };
+    case 'RESET':
+      return initialState;
+    default:
+      return state;
+  }
+}
+
 export function GameProvider({ children }) {
   const { socket, isConnected } = useSocket();
-  const [room, setRoom] = useState(null);
-  const [game, setGame] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [state, dispatch] = useReducer(gameReducer, initialState);
+  const { room, game, error, isLoading } = state;
 
-  // Debug logging helper
   const logGameState = useCallback(() => {
     console.log('=== GAME CONTEXT STATE ===');
     console.log('Socket connected:', isConnected);
     console.log('Room:', room ? { id: room.id, players: room.players?.length } : 'null');
     console.log('Game:', game ? { phase: game.phase, turn: game.turn, boardSize: game.board?.length } : 'null');
-    console.log('Error:', error);
+    if (error) console.log('Error:', error);
     console.log('=========================');
   }, [isConnected, room, game, error]);
 
@@ -35,40 +75,39 @@ export function GameProvider({ children }) {
       console.log('📥 [ROOM_UPDATE] Received:', roomData);
       console.log('   Room ID:', roomData?.id);
       console.log('   Players:', roomData?.players?.length || 0);
-      
+
       if (!roomData || !roomData.id) {
         console.error('❌ Invalid room data received');
         return;
       }
-      
-      setRoom(roomData);
-      setIsLoading(false);
+
+      dispatch({ type: 'SET_ROOM', payload: roomData });
     };
 
     const handleGameUpdate = (gameData) => {
       console.log('📥 [GAME_UPDATE] Received');
       console.log('   Phase:', gameData?.phase);
       console.log('   Turn:', gameData?.turn);
-      
+
       if (!gameData) {
         console.error('❌ Invalid game data received');
         return;
       }
-      
-      setGame(gameData);
+
+      dispatch({ type: 'SET_GAME', payload: gameData });
     };
 
     const handleGameStarted = (gameData) => {
       console.log('📥 [GAME_STARTED] Received');
       console.log('   Room ID:', gameData?.roomId);
       console.log('   Board:', gameData?.board?.length || 0, 'cards');
-      
+
       if (!gameData) {
         console.error('❌ Invalid game start data received');
         return;
       }
-      
-      setGame(gameData);
+
+      dispatch({ type: 'SET_GAME', payload: gameData });
     };
 
     const handlePlayerJoined = (data) => {
@@ -84,16 +123,14 @@ export function GameProvider({ children }) {
 
     const handleError = (errorData) => {
       console.error('📥 [ERROR] Received:', errorData?.message);
-      setError(errorData?.message || 'Unknown error');
-      setIsLoading(false);
-      setTimeout(() => setError(null), 5000);
+      dispatch({ type: 'SET_ERROR', payload: errorData?.message || 'Unknown error' });
+      setTimeout(() => dispatch({ type: 'CLEAR_ERROR' }), 5000);
     };
 
     const handleConnect = () => {
       console.log('🎮 [GameContext] Socket reconnected, listeners intact');
     };
 
-    // Register listeners
     socket.on(SERVER_EVENTS.ROOM_UPDATE, handleRoomUpdate);
     socket.on(SERVER_EVENTS.GAME_UPDATE, handleGameUpdate);
     socket.on(SERVER_EVENTS.GAME_STARTED, handleGameStarted);
@@ -101,17 +138,6 @@ export function GameProvider({ children }) {
     socket.on(SERVER_EVENTS.PLAYER_LEFT, handlePlayerLeft);
     socket.on(SERVER_EVENTS.ERROR, handleError);
     socket.on('connect', handleConnect);
-
-    // Debug: Log all incoming events
-    const originalOn = socket.on.bind(socket);
-    socket.on = function(event, handler) {
-      return originalOn(event, function(...args) {
-        if (!['ROOM_UPDATE', 'GAME_UPDATE', 'connect'].includes(event)) {
-          console.log(`📡 [${event}] Event received`);
-        }
-        handler(...args);
-      });
-    };
 
     return () => {
       console.log('🧹 [GameContext] Cleaning up event listeners');
@@ -125,23 +151,34 @@ export function GameProvider({ children }) {
     };
   }, [socket]);
 
-  // Make logGameState available globally for debugging
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.gameContext = { logGameState, room, game, error, isConnected };
     }
   }, [logGameState, room, game, error, isConnected]);
 
+  const setRoom = useCallback((roomData) => {
+    dispatch({ type: 'SET_ROOM', payload: roomData });
+  }, []);
+
+  const setGame = useCallback((gameData) => {
+    dispatch({ type: 'SET_GAME', payload: gameData });
+  }, []);
+
+  const setIsLoading = useCallback((loading) => {
+    dispatch({ type: 'SET_LOADING', payload: loading });
+  }, []);
+
   return (
-    <GameContext.Provider value={{ 
-      room, 
-      setRoom, 
-      game, 
-      setGame, 
+    <GameContext.Provider value={{
+      room,
+      setRoom,
+      game,
+      setGame,
       error,
       isLoading,
       setIsLoading,
-      logGameState 
+      logGameState
     }}>
       {children}
     </GameContext.Provider>

@@ -1,4 +1,4 @@
-import '../../styles/components/PlayerList.css';
+import styles from '../../styles/components/PlayerList.module.css';
 
 function PlayerList({ players, currentPlayerId }) {
   console.log('PlayerList rendering');
@@ -38,15 +38,15 @@ function PlayerList({ players, currentPlayerId }) {
     console.log('   Rendering player:', player.name, 'Team:', player.team, 'Is Current:', isCurrentPlayer, 'Connected:', player.connected);
     
     return (
-      <div key={player.id} className={`player-item ${isCurrentPlayer ? 'current-player' : ''} ${!player.connected ? 'disconnected-player' : ''}`}>
-        <span className="player-name">
+      <div key={player.id} className={`${styles['player-item']} ${isCurrentPlayer ? styles['current-player'] : ''} ${!player.connected ? styles['disconnected-player'] : ''}`}>
+        <span className={styles['player-name']}>
           {player.name}
-          {isCurrentPlayer && <span className="you-badge"> (أنت) </span>}
+          {isCurrentPlayer && <span className={styles['you-badge']}> (أنت) </span>}
         </span>
-        <span className={`player-role role-${player.role}`}>
+        <span className={`${styles['player-role']} ${styles[`role-${player.role}`]}`}>
           {roleNames[player.role] || 'عميل'}
         </span>
-        {!player.connected && <span className="disconnected">(غير متصل)</span>}
+        {!player.connected && <span className={styles.disconnected}>(غير متصل)</span>}
       </div>
     );
   };
@@ -55,43 +55,43 @@ function PlayerList({ players, currentPlayerId }) {
   console.log('   Total to render:', allPlayers.length);
 
   return (
-    <div className="player-list" dir="rtl">
+    <div className={styles['player-list']} dir="rtl">
       <h2>👥 اللاعبين في الغرفة ({allPlayers.length})</h2>
-      <p className="connected-count">
+      <p className={styles['connected-count']}>
         متصل الآن: {connectedPlayers.length} | غير متصل: {disconnectedPlayers.length}
       </p>
       
-      <div className="team-section team-red">
+      <div className={`${styles['team-section']} ${styles['team-red']}`}>
         <h3>{teamNames.red} ({redTeam.length})</h3>
         {redTeam.length > 0 ? (
           redTeam.map(renderPlayer)
         ) : (
-          <p className="no-players">لا يوجد لاعبين</p>
+          <p className={styles['no-players']}>لا يوجد لاعبين</p>
         )}
       </div>
 
-      <div className="team-section team-blue">
+      <div className={`${styles['team-section']} ${styles['team-blue']}`}>
         <h3>{teamNames.blue} ({blueTeam.length})</h3>
         {blueTeam.length > 0 ? (
           blueTeam.map(renderPlayer)
         ) : (
-          <p className="no-players">لا يوجد لاعبين</p>
+          <p className={styles['no-players']}>لا يوجد لاعبين</p>
         )}
       </div>
 
-      <div className="team-section unassigned">
+      <div className={`${styles['team-section']} ${styles.unassigned}`}>
         <h3>{teamNames.unassigned} ({unassigned.length})</h3>
         {unassigned.length > 0 ? (
           unassigned.map(renderPlayer)
         ) : (
-          <p className="no-players">جميع اللاعبين انضموا لفريق</p>
+          <p className={styles['no-players']}>جميع اللاعبين انضموا لفريق</p>
         )}
       </div>
 
       {disconnectedPlayers.length > 0 && (
-        <div className="team-section disconnected-section">
+        <div className={`${styles['team-section']} ${styles['disconnected-section']}`}>
           <h3>غير متصلين ({disconnectedPlayers.length})</h3>
-          <p className="disconnected-hint">هؤلاء اللاعبين انفصلوا عن اللعبة</p>
+          <p className={styles['disconnected-hint']}>هؤلاء اللاعبين انفصلوا عن اللعبة</p>
           {disconnectedPlayers.map(renderPlayer)}
         </div>
       )}

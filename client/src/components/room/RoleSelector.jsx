@@ -1,4 +1,4 @@
-import '../../styles/components/RoleSelector.css';
+import styles from '../../styles/components/RoleSelector.module.css';
 
 function RoleSelector({ selectedRole, onSelectRole }) {
   const roleNames = {
@@ -7,17 +7,17 @@ function RoleSelector({ selectedRole, onSelectRole }) {
   };
 
   return (
-    <div className="role-selector">
+    <div className={styles['role-selector']}>
       <h3>اختر الدور</h3>
-      <div className="role-buttons">
+      <div className={styles['role-buttons']}>
         <button
-          className={`role-btn ${selectedRole === 'spymaster' ? 'selected' : ''}`}
+          className={`${styles['role-btn']} ${selectedRole === 'spymaster' ? styles.selected : ''}`}
           onClick={() => onSelectRole('spymaster')}
         >
           {roleNames.spymaster}
         </button>
         <button
-          className={`role-btn ${selectedRole === 'operative' ? 'selected' : ''}`}
+          className={`${styles['role-btn']} ${selectedRole === 'operative' ? styles.selected : ''}`}
           onClick={() => onSelectRole('operative')}
         >
           {roleNames.operative}

@@ -1,10 +1,10 @@
 import Card from './Card';
-import '../../styles/components/GameBoard.css';
+import styles from '../../styles/components/GameBoard.module.css';
 
 function GameBoard({ board, isSpymaster, currentTeam, phase, onSelectWord }) {
   return (
-    <div className="game-board">
-      <div className="cards-grid">
+    <div className={styles['game-board']}>
+      <div className={styles['cards-grid']}>
         {board.map((card) => (
           <Card
             key={card.id}

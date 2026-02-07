@@ -1,33 +1,73 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useReducer, useCallback } from 'react';
 import { createSocket } from '../services/socketService';
 
 const SocketContext = createContext(null);
 
+const initialState = {
+  socket: null,
+  isConnected: false,
+  connectionError: null,
+  reconnectAttempt: 0
+};
+
+function socketReducer(state, action) {
+  switch (action.type) {
+    case 'SET_SOCKET':
+      return {
+        ...state,
+        socket: action.payload
+      };
+    case 'CONNECTED':
+      return {
+        ...state,
+        isConnected: true,
+        connectionError: null,
+        reconnectAttempt: 0
+      };
+    case 'DISCONNECTED':
+      return {
+        ...state,
+        isConnected: false
+      };
+    case 'CONNECTION_ERROR':
+      return {
+        ...state,
+        isConnected: false,
+        connectionError: action.payload,
+        reconnectAttempt: state.reconnectAttempt + 1
+      };
+    case 'RECONNECTED':
+      return {
+        ...state,
+        isConnected: true,
+        connectionError: null,
+        reconnectAttempt: 0
+      };
+    default:
+      return state;
+  }
+}
+
 export function SocketProvider({ children }) {
-  const [socket, setSocket] = useState(null);
-  const [isConnected, setIsConnected] = useState(false);
-  const [connectionError, setConnectionError] = useState(null);
-  const [reconnectAttempt, setReconnectAttempt] = useState(0);
+  const [state, dispatch] = useReducer(socketReducer, initialState);
+  const { socket, isConnected, connectionError, reconnectAttempt } = state;
 
   const initializeSocket = useCallback(() => {
     console.log('🎮 SocketContext: Initializing socket connection...');
     const newSocket = createSocket();
-    setSocket(newSocket);
+    dispatch({ type: 'SET_SOCKET', payload: newSocket });
 
     newSocket.on('connect', () => {
       console.log('✅ SocketContext: Connected to server');
       console.log('   Socket ID:', newSocket.id);
-      setIsConnected(true);
-      setConnectionError(null);
-      setReconnectAttempt(0);
+      dispatch({ type: 'CONNECTED' });
     });
 
     newSocket.on('disconnect', (reason) => {
       console.log('❌ SocketContext: Disconnected from server');
       console.log('   Reason:', reason);
-      setIsConnected(false);
-      
-      // Auto-reconnect for certain disconnect reasons
+      dispatch({ type: 'DISCONNECTED' });
+
       if (reason === 'io server disconnect' || reason === 'transport close') {
         console.log('🔄 Attempting to reconnect...');
         newSocket.connect();
@@ -36,15 +76,12 @@ export function SocketProvider({ children }) {
 
     newSocket.on('connect_error', (error) => {
       console.error('❌ SocketContext: Connection error:', error.message);
-      setIsConnected(false);
-      setConnectionError(error.message);
-      setReconnectAttempt(prev => prev + 1);
+      dispatch({ type: 'CONNECTION_ERROR', payload: error.message });
     });
 
     newSocket.on('reconnect', (attemptNumber) => {
       console.log('🔄 SocketContext: Reconnected after', attemptNumber, 'attempts');
-      setIsConnected(true);
-      setConnectionError(null);
+      dispatch({ type: 'RECONNECTED' });
     });
 
     return newSocket;
@@ -60,7 +97,6 @@ export function SocketProvider({ children }) {
     };
   }, [initializeSocket]);
 
-  // Manual reconnect function
   const reconnect = useCallback(() => {
     if (socket) {
       console.log('🔄 Manual reconnect triggered');
@@ -69,12 +105,12 @@ export function SocketProvider({ children }) {
   }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ 
-      socket, 
-      isConnected, 
-      connectionError, 
+    <SocketContext.Provider value={{
+      socket,
+      isConnected,
+      connectionError,
       reconnectAttempt,
-      reconnect 
+      reconnect
     }}>
       {children}
     </SocketContext.Provider>
